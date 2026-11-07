@@ -2,7 +2,7 @@
 
 **Automatically file selected email attachments and keep a record of where they came from.**
 
-[Business problem](#the-business-problem) · [Solution](#the-solution) · [Build issues](#what-went-wrong-and-what-we-learned) · [Proof](#proof-it-works) · [Commands](docs/COMMANDS.md)
+[Business problem](#the-business-problem) · [Solution](#the-solution) · [Build issues](#what-went-wrong-and-what-we-learned) · [Proof](#proof-it-works) · [Commands](docs/COMMANDS.md) · [Step by step](#step-by-step)
 
 ![Local reference overview](docs/images/01-overview.png)
 
@@ -17,6 +17,18 @@ I used Azure Logic Apps, a service for connecting scheduled tasks, to look for r
 Selected files go into private storage for a malware check. The application keeps their source details and checks for duplicates.
 
 **Business outcome:** The implementation provides a repeatable filing process with a traceable source for each accepted document. The project also records a later connector replacement that remained blocked; it does not claim a completed mailbox migration.
+
+## Step by Step
+
+A short walkthrough of the process, with technical instructions and evidence limits in the sections below.
+
+1. **Find relevant email messages** — The scheduled process looks for messages that may contain business documents. It keeps the same search while reading the results.
+
+2. **Select the right attachments** — The application applies the configured sender, filename and filing rules. Attachments with missing or conflicting rules are not accepted automatically.
+
+3. **Record and hold the file** — The application preserves the original message and attachment references and checks for duplicates. Selected files wait in private storage for a separate malware check.
+
+4. **Confirm the processing path** — Check the file result and the records showing what was processed. The later connector replacement remained blocked, so this case study does not claim a completed replacement handover.
 
 ## Architecture
 
