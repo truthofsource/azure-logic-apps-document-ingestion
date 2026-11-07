@@ -30,3 +30,15 @@ scripts remained unchanged; this pass changed text and screenshots only.
 
 These browser checks did not repeat cloud acceptance or the earlier code tests.
 No Azure service, Gmail account, provider session or hosted Actions run was used.
+
+## Plain-language review - November 7, 2026
+
+The main overview now starts with the business problem, the solution and the
+practical outcome. Technical commands and detailed results remain available in
+expandable sections and linked guides. Links, heading anchors, formatting and
+expandable sections were checked. Earlier code-test and cloud results remain
+historical; this wording pass did not repeat those tests.
+
+The fictional preview was also simplified, its screenshots refreshed, and its
+desktop tabs and 390-pixel mobile layout checked locally. Browser requests were
+restricted to the local preview; HTML structure and embedded scripts were unchanged.
