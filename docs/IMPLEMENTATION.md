@@ -28,6 +28,6 @@ The full route distinguishes an exact replay from different bytes under an exist
 
 New bytes go to private Gmail quarantine. Defender produces the malware result; Event Grid and a queue carry it; the trusted processor checks the expected object/version and state before release. No OCR result, sender label, successful poll or manual operator assumption makes a file clean.
 
-Historical records describe prospective activation of an earlier environment. Replacement commissioning remained deferred after connector creation failed and continuity evidence was incomplete. That is not contradicted by keeping the original implementation code. No current live-state check or activation is performed for this project.
+Earlier records describe plans to activate an earlier environment. The replacement remained deferred because connector creation failed and the evidence was insufficient to confirm a complete handover. The original implementation code is retained here. This project does not check or change the current live connection.
 
 References: [Gmail attachment body format](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages.attachments), [message listing](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/list), [Gmail filtering](https://developers.google.com/workspace/gmail/api/guides/filtering), [Microsoft Gmail connector restrictions](https://learn.microsoft.com/en-us/connectors/gmail/).

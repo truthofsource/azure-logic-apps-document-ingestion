@@ -5,7 +5,7 @@ These are recorded implementation lessons, not a fresh production investigation.
 | Stage | Evidence | Conclusion |
 | --- | --- | --- |
 | Original document ingestion | Long Gmail attachment IDs exceeded a legacy 200-character assumption | Preserve the complete opaque ID; use a separate domain-separated persistence hash |
-| Historical run inspection | Some successful Response actions did not expose the expected retained output surface | Use available authoritative state and controlled source metadata reacquisition; do not invent a missing output link |
+| Historical run inspection | Some successful Response actions did not expose the expected retained output surface | Use the available system records and a controlled read of the needed source metadata; do not invent a missing output link |
 | Replacement polling review | A rolling `after:` query could move between pages | Capture one query per enumeration; retain full-pagination failure behavior |
 | Replacement document connector | Azure connector creation returned InternalServerError before OAuth | Replacement commissioning remained blocked; no mailbox migration or handover was proved |
 | Later provider MFA connector attempt, October 21 | Public OpenAPI validation passed, but connector creation still returned repeated HTTP 500 and timed out | Validation was necessary but not sufficient; the service's underlying root cause remained unknown |
