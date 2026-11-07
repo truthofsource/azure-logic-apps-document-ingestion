@@ -1,0 +1,12 @@
+import {planInboundGmailMessage} from '../src/planner/inboundgmailmessageplan.ts';
+import {parseInboundDocumentIngestionInput} from '../src/contracts/inboundDocumentIngestion.ts';
+import {prepareInboundDocument} from '../src/documents/inboundDocumentRules.ts';
+const rule={sourceClassifier:'mco_authorization',classifierRuleVersion:'fictional-v1',approvedSenderAddresses:[],approvedSenderDomains:['payer.example.invalid'],requiredFilenameTokens:['authorization']};
+const message={id:'fictional1',threadId:'fictional-thread',internalDate:'1786464000000',payload:{mimeType:'multipart/mixed',headers:[{name:'From',value:'reports@payer.example.invalid'}],parts:[{mimeType:'multipart/mixed',parts:[{filename:'authorization.pdf',mimeType:'application/pdf',body:{attachmentId:'opaque_'.repeat(60),size:64}}]}]}};
+const selected=planInboundGmailMessage(message,[rule]).eligibleAttachments;
+const input={...selected[0],sourceMailboxKey:'fictional-operations',contentBase64:Buffer.from('%PDF-1.4 Fictional test bytes').toString('base64'),correlationId:'fictional-run'};delete input.sizeBytes;
+const parsed=parseInboundDocumentIngestionInput(input),prepared=prepareInboundDocument(parsed,'11111111-1111-4111-8111-111111111111');
+const repeat=prepareInboundDocument(parsed,'11111111-1111-4111-8111-111111111111');
+const changed=prepareInboundDocument({...parsed,contentBase64:Buffer.from('%PDF-1.4 Different fictional bytes').toString('base64')},'11111111-1111-4111-8111-111111111111');
+const results=[['Nested PDF','Selected',selected.length+' qualifying attachment'],['No configured rules','Skipped',String(planInboundGmailMessage(message,[]).eligibleAttachments.length)+' eligible attachments'],['Ambiguous rules','Skipped',String(planInboundGmailMessage(message,[rule,{...rule,classifierRuleVersion:'other'}]).eligibleAttachments.length)+' eligible attachments'],['Long attachment ID','Preserved',parsed.sourceAttachmentId.length+' raw characters; '+prepared.sourceAttachmentReference.length+'-character storage reference'],['Exact retry','Same identity',String(prepared.idempotencyKey===repeat.idempotencyKey)],['Changed bytes','Different fingerprint',String(prepared.idempotencyKey===changed.idempotencyKey && prepared.attachmentSha256!==changed.attachmentSha256)]];
+console.log(JSON.stringify({results,scope:'Fictional metadata and bytes through actual extracted rules; no Gmail, Azure, SQL or scanner access.'}));

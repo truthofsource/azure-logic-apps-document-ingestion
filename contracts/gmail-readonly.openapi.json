@@ -1,0 +1,293 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Workforce Services Gmail Readonly Ingestion",
+    "description": "Read-only Gmail API surface for Layer 40 deterministic polling. Exposes only messages.list, messages.get, and messages.attachments.get.",
+    "version": "1.0"
+  },
+  "host": "gmail.googleapis.com",
+  "basePath": "/gmail/v1",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/users/{userId}/messages": {
+      "get": {
+        "operationId": "ListMessages",
+        "summary": "List Gmail messages",
+        "description": "Lists message IDs using Gmail search syntax. Layer 40 supplies has:attachment plus a bounded after:<epoch> lookback and follows nextPageToken until empty.",
+        "x-ms-summary": "List messages",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User",
+            "description": "Use me for the authenticated mailbox."
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Gmail query",
+            "description": "Gmail search query. Layer 40 requires has:attachment and a bounded after:<epoch> lookback."
+          },
+          {
+            "name": "pageToken",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Page token",
+            "description": "Token returned by a previous page."
+          },
+          {
+            "name": "maxResults",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 1,
+            "maximum": 500,
+            "x-ms-summary": "Max results"
+          },
+          {
+            "name": "includeSpamTrash",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Include spam/trash"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message list.",
+            "schema": {
+              "$ref": "#/definitions/ListMessagesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/messages/{id}": {
+      "get": {
+        "operationId": "GetMessage",
+        "summary": "Get Gmail message",
+        "description": "Retrieves parsed message metadata and MIME structure. Layer 40 uses format=full and does not request raw RFC 2822 message content.",
+        "x-ms-summary": "Get message",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Message ID"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "full"
+            ],
+            "x-ms-summary": "Format"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Gmail message.",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/messages/{messageId}/attachments/{id}": {
+      "get": {
+        "operationId": "GetAttachment",
+        "summary": "Get Gmail attachment",
+        "description": "Retrieves a single attachment body by message ID and attachment ID.",
+        "x-ms-summary": "Get attachment",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User"
+          },
+          {
+            "name": "messageId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Message ID"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Attachment ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Attachment body.",
+            "schema": {
+              "$ref": "#/definitions/MessagePartBody"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ListMessagesResponse": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageReference"
+          }
+        },
+        "nextPageToken": {
+          "type": "string"
+        },
+        "resultSizeEstimate": {
+          "type": "integer",
+          "format": "uint32"
+        }
+      }
+    },
+    "MessageReference": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "threadId": {
+          "type": "string"
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "threadId": {
+          "type": "string"
+        },
+        "labelIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "internalDate": {
+          "type": "string"
+        },
+        "sizeEstimate": {
+          "type": "integer"
+        },
+        "payload": {
+          "$ref": "#/definitions/MessagePart"
+        }
+      }
+    },
+    "MessagePart": {
+      "type": "object",
+      "properties": {
+        "partId": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        },
+        "filename": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Header"
+          }
+        },
+        "body": {
+          "$ref": "#/definitions/MessagePartBody"
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessagePart"
+          }
+        }
+      }
+    },
+    "Header": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "MessagePartBody": {
+      "type": "object",
+      "properties": {
+        "attachmentId": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "string",
+          "description": "Base64url-encoded attachment body returned by Gmail. Never log or persist this value outside the controlled ingestion request."
+        }
+      }
+    }
+  },
+  "parameters": {},
+  "responses": {},
+  "security": [
+    {
+      "googleOAuth": [
+        "https://www.googleapis.com/auth/gmail.readonly"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "googleOAuth": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+      "tokenUrl": "https://oauth2.googleapis.com/token",
+      "scopes": {
+        "https://www.googleapis.com/auth/gmail.readonly": "https://www.googleapis.com/auth/gmail.readonly"
+      }
+    }
+  }
+}

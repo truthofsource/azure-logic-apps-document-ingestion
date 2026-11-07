@@ -1,0 +1,119 @@
+{
+  "description": "Original file hashes precede public adaptations. Paths and organization/provider labels are generalized. No private history or message content included.",
+  "files": [
+    {
+      "source": "apps/api/src/contracts/inboundDocumentIngestion.ts",
+      "sourceSha256": "273675930cd30df4633774a29115e660be03f2119879d4f16e404f9cba324b10",
+      "publicFile": "src/contracts/inboundDocumentIngestion.ts",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "apps/api/src/contracts/inboundDocumentIngestion.test.ts",
+      "sourceSha256": "50d754cf745c830d8504dc51e92630ba22710e2e14162af8b03a40ab81d04133",
+      "publicFile": "src/contracts/inboundDocumentIngestion.test.ts",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "apps/api/src/documents/inboundDocumentRules.ts",
+      "sourceSha256": "aceeb0a6dcbcaea66ccfa3c44caf765600fad163f8f505e6f40ff9202a387ac1",
+      "publicFile": "src/documents/inboundDocumentRules.ts",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "apps/api/src/documents/inboundDocumentRules.test.ts",
+      "sourceSha256": "933200fcbbaf072bf4be19c232ea97d68face0a4bd303c501e5ebb653771d0ca",
+      "publicFile": "src/documents/inboundDocumentRules.test.ts",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "apps/api/src/functions/inboundgmailmessageplan.ts",
+      "sourceSha256": "a53b3b2d9b2cb6a2917be0d10a6d09d30adde02d40ed201310fa3e7c51e81ecd",
+      "publicFile": "src/planner/inboundgmailmessageplan.ts",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions.",
+        "Selected original code extracted; omitted integration dependencies documented."
+      ]
+    },
+    {
+      "source": "apps/api/src/functions/inboundgmailmessageplan.test.ts",
+      "sourceSha256": "54e8e6590ab16289d1d7a34ca5bb87fcee2c69bf02c1dea6eba9ad4fd15774c7",
+      "publicFile": "src/planner/inboundgmailmessageplan.test.ts",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "apps/api/src/functions/inboundgmailmessageplan.ts",
+      "sourceSha256": "a53b3b2d9b2cb6a2917be0d10a6d09d30adde02d40ed201310fa3e7c51e81ecd",
+      "publicFile": "reference/inboundgmailmessageplan-route.ts",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "apps/api/src/functions/inbounddocumentingestion.ts",
+      "sourceSha256": "74a19a17409f4072737caad6c2ad7e4d51dee3fe6013a616d302a7feb095d572",
+      "publicFile": "reference/inbounddocumentingestion-route.ts",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "infra/database/migrations/037_gmail_inbound_document_ingestion_foundation.sql",
+      "sourceSha256": "a84c23d6e9f3f701fe27c5147293260723c02eec268c35d7515b2a9e7486d9b6",
+      "publicFile": "reference/037-inbound-document-ledger.sql",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "infra/platform/nonproduction/contracts/gmail-readonly.openapi.json",
+      "sourceSha256": "12d8df260715d5629b2f420ddded7ef3622266a57815b04f2ad5ed4582d4b8e5",
+      "publicFile": "contracts/gmail-readonly.openapi.json",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "infra/platform/production/gmail-document-ingestion.tf",
+      "sourceSha256": "2b08506505139044c59732ca88d6b872f4e8e01dbed186b796c2deef25901106",
+      "publicFile": "reference/infra/earlier-production-workflow.tf",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "infra/platform/nonproduction/gmail-document-ingestion.tf",
+      "sourceSha256": "07073e4080e74d3f265769153619a5ac4cc0d66081def3c699c79d7fc0b04fd7",
+      "publicFile": "reference/infra/nonproduction-workflow.tf",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "infra/platform/nonproduction/gmail-connector.tf",
+      "sourceSha256": "107c0fd4cab70c2d24b526ff622717bea19766e786098176918f4ca327adee37",
+      "publicFile": "reference/infra/connector-definition.tf",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions."
+      ]
+    },
+    {
+      "source": "infra/platform/nonproduction/gmail-document-ingestion.tf",
+      "sourceSha256": "07073e4080e74d3f265769153619a5ac4cc0d66081def3c699c79d7fc0b04fd7",
+      "publicFile": "infra/logic-app/main.tf",
+      "adaptations": [
+        "Fictional organization/provider labels, filename-variable renaming where present, and explicit import extensions.",
+        "Selected original code extracted; omitted integration dependencies documented."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "azure-logic-apps-document-ingestion",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.2"
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types --test src/contracts/inboundDocumentIngestion.test.ts src/documents/inboundDocumentRules.test.ts src/planner/inboundgmailmessageplan.test.ts",
+    "demo": "node --experimental-strip-types scripts/demo.mjs"
+  }
+}
