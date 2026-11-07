@@ -19,3 +19,14 @@ The document tests use three original test files against the extracted contract,
 Historical records preserve earlier outcomes and later blocked/deferred work separately. No real message or attachment, OAuth bundle, verification code, callback URL or employee record is included. No cloud start, consent, mailbox query, backfill, SQL migration, message send or deployment is performed for publication.
 
 The selected Node tests are not a complete application build or TypeScript type check. Fake responses do not prove live OAuth/DKIM/DNS, SQL transaction races or provider sign-in. The GitHub workflow is manual-only and is not dispatched.
+
+## Wording and preview review - November 6, 2026
+
+The supporting guides and preview labels received another plain-language review.
+Screenshots were refreshed from the local fictional viewer. Desktop tabs loaded
+without browser errors, and the 390-pixel mobile view had no horizontal page
+overflow. External browser requests were blocked. HTML structure and embedded
+scripts remained unchanged; this pass changed text and screenshots only.
+
+These browser checks did not repeat cloud acceptance or the earlier code tests.
+No Azure service, Gmail account, provider session or hosted Actions run was used.

@@ -18,7 +18,7 @@ Keep the historical enumerator and metadata workflows disabled unless a specific
 
 Measure qualifying documents, all polled messages, pages, actions per run, attachment sizes, duplicate/conflict rates, time in quarantine and end-to-end completion. Consumption Logic Apps charge for executed work; extra polling, per-message actions and repeated failures can increase cost. Also account for storage, versions, scanning and logging. No current price estimate is implied.
 
-The workflow's sequential loops simplify ordering and shared-variable use but limit throughput. Increasing concurrency requires safe loop state, database uniqueness and object-version checks. Larger discovery windows can hit page/time limits. A persisted cursor or bounded recovery windows may be warranted, but neither is silently added to this copied design.
+The workflow's sequential loops simplify ordering and shared-variable use but limit throughput. Processing more files at once requires separate state for each loop, database duplicate protection and checks of the exact stored file. Larger discovery windows can hit page/time limits. A saved progress marker or a recovery job covering a fixed time range may help after outages. Neither is included in this reference.
 
 The helper buffers attachments and caps decoded bytes at 20 MiB. Larger-file support needs memory, request-size, timeout, direct upload/finalization and malware-correlation design, not just a raised constant. Split resource boundaries only when access, scale or ownership justifies them.
 

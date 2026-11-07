@@ -5,11 +5,11 @@ These are recorded implementation lessons, not a fresh production investigation.
 | Stage | Evidence | Conclusion |
 | --- | --- | --- |
 | Original document ingestion | Long Gmail attachment IDs exceeded a legacy 200-character assumption | Preserve the complete opaque ID; use a separate domain-separated persistence hash |
-| Historical run inspection | Some successful Response actions did not expose the expected retained output surface | Use the available system records and a controlled read of the needed source metadata; do not invent a missing output link |
+| Historical run inspection | Some successful Response actions had no retrievable saved output | Use the available system records and a controlled read of the needed source metadata; do not invent a missing output link |
 | Replacement polling review | A rolling `after:` query could move between pages | Capture one query per enumeration; retain full-pagination failure behavior |
-| Replacement document connector | Azure connector creation returned InternalServerError before OAuth | Replacement commissioning remained blocked; no mailbox migration or handover was proved |
+| Replacement document connector | Azure connector creation returned InternalServerError before OAuth | The replacement could not be put into service; mailbox migration and a complete handover were not verified |
 | Later provider MFA connector attempt, October 21 | Public OpenAPI validation passed, but connector creation still returned repeated HTTP 500 and timed out | Validation was necessary but not sufficient; the service's underlying root cause remained unknown |
-| Support attempt | HTTP 202 was followed by Failed / InvalidSupportPlan and no case readback | An accepted asynchronous submission was not an opened support ticket |
+| Support attempt | The submission was initially accepted, then failed with InvalidSupportPlan; no opened case was confirmed | An accepted asynchronous submission was not an opened support ticket |
 | MFA implementation conclusion | Approved direct Gmail API access avoided connector creation; authorization stayed protected in Key Vault | Direct retrieval became the MFA path; it did not fix the document connector |
 | OAuth lifecycle | Testing status and missing branding initially prevented a durable production-mode setup | Complete required branding, select the intended publishing status and renew consent; do not confuse this with the pre-OAuth HTTP 500 |
 | Recovery timing, October 22–23 | A real arrival could be rounded to the same second as millisecond Send time and be rejected as too old | Share one precise freshness comparison before verification and final selection; keep older/ambiguous messages rejected |
@@ -29,4 +29,4 @@ Confirm the exact resource, failure stage, supported contract and actual Azure s
 
 ## Before recovering a processing gap
 
-Establish the last verified complete boundary, stop competing producers and reconcile in-flight work. Plan a bounded fixed-window discovery and preserve the raw provider IDs and destination ledger. Do not restart the shelved historical backfill automatically. Preserving a receipt matters more than replaying an operation to obtain a cleaner test result.
+Find the last time range confirmed fully processed, stop overlapping ingestion jobs and check unfinished work. Plan a recovery scan for a fixed time range, keeping the original provider IDs and destination processing records. Do not restart the shelved historical backfill automatically. Keep the original operation record. Do not repeat a business operation just to obtain a cleaner test result.

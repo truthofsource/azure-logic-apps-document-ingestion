@@ -16,18 +16,18 @@ The authorization-document profile is PDF-only. The generic preparation code can
 
 Gmail attachment data uses base64url. The workflow normalizes the URL-safe alphabet and padding before submitting ordinary base64 to the inbound API. The API independently checks canonical encoding, the 20 MiB decoded bound, filename/MIME/signature agreement, sender address and received timestamp. A valid file header is not a malware verdict or a complete PDF/image parse.
 
-## Identity and provenance
+## Access and source tracking
 
 Gmail OAuth is a mailbox authorization. The workflow's managed identity is a different identity used for API calls. The original full route requires an ingestion-writer application role. Creating a workflow identity does not grant that role; the public runnable extraction deliberately omits app registration, role assignment, connector creation, database and scanner provisioning.
 
 Preserve the raw provider attachment ID, up to the contract's 8,192-character bound, for retrieval and duplicate identity. A domain-separated SHA-256 converts it to a fixed-size persistence reference. The content SHA-256 describes the received bytes. These values serve different purposes. Do not derive replay identity from the already-hashed attachment reference.
 
-The full route distinguishes an exact replay from different bytes under an existing identity. SQL and Blob Storage are separate systems: a committed receipt, pending scan and partial upload need reconciliation rather than blind re-submission.
+The full route distinguishes an exact replay from different bytes under an existing identity. SQL and Blob Storage are separate systems: a saved upload record, pending scan or partial upload must be checked before deciding what to retry.
 
 ## Trust and history
 
 New bytes go to private Gmail quarantine. Defender produces the malware result; Event Grid and a queue carry it; the trusted processor checks the expected object/version and state before release. No OCR result, sender label, successful poll or manual operator assumption makes a file clean.
 
-Earlier records describe plans to activate an earlier environment. The replacement remained deferred because connector creation failed and the evidence was insufficient to confirm a complete handover. The original implementation code is retained here. This project does not check or change the current live connection.
+Historical records describe an earlier activation plan. The replacement remained deferred because connector creation failed and the evidence was insufficient to confirm a complete handover. The original implementation code is retained here. This project does not check or change the current live connection.
 
 References: [Gmail attachment body format](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages.attachments), [message listing](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.messages/list), [Gmail filtering](https://developers.google.com/workspace/gmail/api/guides/filtering), [Microsoft Gmail connector restrictions](https://learn.microsoft.com/en-us/connectors/gmail/).
