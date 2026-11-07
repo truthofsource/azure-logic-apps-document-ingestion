@@ -42,3 +42,9 @@ historical; this wording pass did not repeat those tests.
 The fictional preview was also simplified, its screenshots refreshed, and its
 desktop tabs and 390-pixel mobile layout checked locally. Browser requests were
 restricted to the local preview; HTML structure and embedded scripts were unchanged.
+
+## Tools and utilities documentation review — November 7, 2026
+
+Added a prominent README table naming the relevant tools/services and their jobs. The wording distinguishes actual platform components, operating utilities, selected source adapters, optional preparation and local teaching examples. Relevant step headings name their tools while the four-step order and explanatory sentences remain unchanged.
+
+This editorial pass did not change application code, dependencies, infrastructure, workflows or cloud settings. Existing tests and screenshots retain their original evidence scope; no application suite, live scanner, browser sign-in, paid request or GitHub Actions run was executed for this wording update.

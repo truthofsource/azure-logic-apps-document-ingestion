@@ -18,15 +18,28 @@ Selected files go into private storage for a malware check. The application keep
 
 **Business outcome:** The implementation provides a repeatable filing process with a traceable source for each accepted document. The project also records a later connector replacement that remained blocked; it does not claim a completed mailbox migration.
 
+## Tools Used and What They Do
+
+| Tool or service | What it does | Where it fits |
+| --- | --- | --- |
+| Azure Logic Apps | Coordinate the original document-email workflow. | Actual integration design/history; replacement connector commissioning remained unresolved. |
+| Gmail API and OAuth 2.0 | Read approved mailbox messages and authorize access. | Service API and authorization protocol; mailbox consent is a separate step. |
+| Azure Key Vault | Protect integration credentials in the platform. | Actual secret boundary; no credentials are published. |
+| Azure Functions, Node.js and TypeScript | Apply ingestion contracts and document-selection rules. | Selected source rules and local tests, not a completed mailbox migration. |
+| Blob Storage, Defender for Storage and Event Grid | Hold incoming bytes and connect them to scanning. | Actual document pipeline boundary; discovery alone is not accepted ingestion. |
+| Terraform and Python | Describe related resources and run the local reference view. | Reference tools; no connector or workflow is activated. |
+
+The later direct Gmail MFA implementation reached a different conclusion and is a separate project. Its success did not repair the document connector or prove an ingestion handover.
+
 ## Step by Step
 
 A short walkthrough of the process, with technical instructions and evidence limits in the sections below.
 
-1. **Find relevant email messages** — The scheduled process looks for messages that may contain business documents. It keeps the same search while reading the results.
+1. **Find relevant email messages (Logic Apps and Gmail API)** — The scheduled process looks for messages that may contain business documents. It keeps the same search while reading the results.
 
 2. **Select the right attachments** — The application applies the configured sender, filename and filing rules. Attachments with missing or conflicting rules are not accepted automatically.
 
-3. **Record and hold the file** — The application preserves the original message and attachment references and checks for duplicates. Selected files wait in private storage for a separate malware check.
+3. **Record and hold the file (Blob Storage)** — The application preserves the original message and attachment references and checks for duplicates. Selected files wait in private storage for a separate malware check.
 
 4. **Confirm the processing path** — Check the file result and the records showing what was processed. The later connector replacement remained blocked, so this case study does not claim a completed replacement handover.
 
