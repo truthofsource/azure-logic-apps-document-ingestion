@@ -8,7 +8,11 @@
 
 ## The Business Problem
 
-Important documents arrived as email attachments. Keeping them in an inbox made filing, retrieval and audit preparation harder. Downloading every attachment would also bring in unrelated, duplicate or unchecked files.
+Business documents arriving as email attachments can remain scattered across messages and folders. Staff then have to locate the right email, identify the relevant attachment, download it and file it with enough context for later retrieval or audit preparation. Repeating that work becomes harder as the mailbox grows.
+
+Copying every attachment introduces its own problems: unrelated files enter the document library, repeated messages create duplicate records and an attachment can be opened before its file check completes. The automation also depends on a working mailbox authorization and connector, so a configured process can still stop before filing anything.
+
+The business need was selective, traceable document filing that preserves where each accepted file came from, handles duplicates and leaves connection failures visible for recovery.
 
 ## The Solution
 
