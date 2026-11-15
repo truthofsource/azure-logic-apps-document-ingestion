@@ -1,5 +1,7 @@
 # Validation and Evidence Limits
 
+> Placeholder screenshots were removed on November 15, 2026. Written test results below retain their original dates and scope; historical screenshot references describe earlier captures. Proper Azure and application screenshots are deferred. The illustrated architecture is a source-based explanation, not a live-service screenshot.
+
 Checks completed November 6, 2026. They do not establish current Azure or Google service state.
 
 | Check | Observed result | Evidence boundary |
@@ -12,7 +14,7 @@ Checks completed November 6, 2026. They do not establish current Azure or Google
 | Secret scan | Trivy found no credentials in curated files | Secret scan, not a vulnerability clearance |
 | Workflow | Actionlint passed; manual-only trigger | No hosted workflow dispatched |
 
-Screenshots: [overview](images/01-overview.png), [local checks](images/02-local-checks.png), [conclusions](images/03-conclusions.png), [mobile](images/04-mobile.png).
+Proper Azure and application screenshots are deferred.
 
 The document tests use three original test files against the extracted contract, preparation and planner. The Gmail access tests include two adapted original prototype test files against current runtime helpers plus eight new focused cases. Source mapping records those changes. Neither suite tests the entire private application.
 

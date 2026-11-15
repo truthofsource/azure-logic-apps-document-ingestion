@@ -1,10 +1,12 @@
 # Email Document Ingestion with Azure Logic Apps
 
+[![Email document ingestion — illustrated overview](docs/diagrams/architecture.png)](docs/diagrams/architecture.svg)
+
+[View SVG](docs/diagrams/architecture.svg) · [Download PNG](docs/diagrams/architecture.png) · [Edit in draw.io](docs/diagrams/architecture.drawio)
+
 **Automatically file selected email attachments and keep a record of where they came from.**
 
 [Business problem](#the-business-problem) · [Solution](#the-solution) · [Build issues](#what-went-wrong-and-what-we-learned) · [Proof](#proof-it-works) · [Commands](docs/COMMANDS.md) · [Step by step](#step-by-step)
-
-![Local reference overview](docs/images/01-overview.png)
 
 ## The Business Problem
 
@@ -152,7 +154,7 @@ Save a value-free designer diagram, run outcomes and recovery instructions. Disa
 | Failure boundary | A meaningful denied, malformed, stale or failed case | Not yet recorded |
 | Recovery / cleanup | What you restored or removed and what remains billed | Not yet recorded |
 
-Capture your own architecture/configuration, one working result and one failure/recovery result. Keep tokens, credentials, personal records and private identifiers out of public screenshots. Existing portfolio images are references, not evidence that you performed these steps.
+Capture your own architecture/configuration, one working result and one failure/recovery result. Keep tokens, credentials, personal records and private identifiers out of public screenshots. The architecture diagram explains the design; record your own results rather than treating it as execution evidence.
 
 ### Troubleshooting order
 
@@ -187,15 +189,7 @@ A short walkthrough of the process, with technical instructions and evidence lim
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  Inbox[Authorized email inbox] --> Schedule[Look for relevant messages every five minutes]
-  Schedule --> Rules[Check attachment and filing rules]
-  Rules --> History[Record the source and check for duplicates]
-  History --> Hold[Hold the file in private storage]
-  Hold --> Scan[Run the separate malware check]
-  Scan --> Available[Make eligible files available to authorized staff]
-```
+[View the illustrated project overview](docs/diagrams/architecture.svg).
 
 Permission to read Gmail is separate from permission to save documents in the application.
 
@@ -238,11 +232,7 @@ npm run demo
 
 **Observed: 32 local code tests passed, with zero failures.** Tests exercise real selected source with fictional inputs. The demonstration shows nested PDF selection, missing and ambiguous rules, a long attachment ID, repeat identity and changed-byte fingerprints. It does not connect to Gmail or save a document.
 
-![Actual local rule outputs with fictional metadata](docs/images/02-local-checks.png)
-
 ### 2. Inspect the historical conclusions
-
-![Build issues and conclusions in the local reference](docs/images/03-conclusions.png)
 
 A planned activation, an authorized mailbox connection and a verified replacement are different milestones. The [status and evidence guide](docs/VALIDATION.md) keeps them separate. A successful empty poll does not prove document ingestion or complete coverage.
 
