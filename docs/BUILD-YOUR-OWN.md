@@ -1,6 +1,6 @@
 # Build your own: Email Document Ingestion with Azure Logic Apps
 
-This is a reader-operated build recipe for an independent learning copy. Follow the numbered steps in order and record your own results. The included local implementation is not a complete deployment of the private business platform; cloud extensions are separate and must use your own authorized resources.
+This is a step-by-step build guide for an independent learning copy. Follow the numbered steps in order and record your own results. The included local implementation is not a complete deployment of the private business platform; cloud extensions are separate and must use your own authorized resources.
 
 ## What you will create
 
