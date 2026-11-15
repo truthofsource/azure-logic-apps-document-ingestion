@@ -270,4 +270,4 @@ As volume grows, measure processing delays and missed time ranges before increas
 - [Source map](docs/SOURCE-MAP.md)
 - [Validation and evidence limits](docs/VALIDATION.md)
 
-Actual implementation source is included with fictional organization labels. Screenshots show a new local reference, not fresh Azure acceptance. No mailbox access, backfill, service start, message or deployment is performed to publish this project. GitHub checks are manual-only.
+Actual implementation source is included with fictional organization labels. The local reference is not fresh Azure acceptance; proper screenshots are deferred. No mailbox access, backfill, service start, message or deployment is performed to publish this project. GitHub checks are manual-only.
