@@ -1,104 +1,132 @@
-# Build your own: Email Document Ingestion with Azure Logic Apps
+# Build your own from scratch: Azure Logic Apps Document Ingestion
 
-This is a step-by-step build guide for an independent learning copy. Follow the numbered steps in order and record your own results. The included local implementation is not a complete deployment of the private business platform; cloud extensions are separate and must use your own authorized resources.
+Your own Logic App that reads approved email attachments into a private quarantine container, with a documented connector failure/fallback path.
 
-## What you will create
+Start with a new folder, your own files and your own accounts. The numbered steps below describe the build; no portfolio repository checkout is required. The existing implementation/evidence elsewhere in this repository is a separate reference, not a claim that your new build has already passed.
 
-Attachment-selection and ingestion decisions; no live Gmail connection or workflow activation.
+## Prerequisites
 
-## Prerequisites and working locations
+Your own mail account and permitted messages, Azure subscription, Logic App/connector permissions and private Blob storage. Managed connector support, consent restrictions and network access must be checked for your selected mailbox before building the full flow.
 
-| Location | What you need |
-| --- | --- |
-| Your workstation | Git and the runtime versions documented in [the command guide](COMMANDS.md); use its package/lockfile instructions. |
-| Bash, Linux or WSL terminal | The commands below use Bash syntax. Prepare the compatible Node.js version documented by the project; use the project's pinned dependency files. |
-| PowerShell alternative | Use the PowerShell forms in the command guide, or run this Bash recipe in WSL; do not paste Bash loops into PowerShell. |
-| Azure or external service | Not needed for default local tests. Any cloud extension requires your own account, target, permissions, budget and acceptance plan. |
+Use Bash on Linux/macOS/WSL for Bash blocks and PowerShell for PowerShell blocks. Select the tool versions supported by the official sources below, record the versions you actually install and retain generated dependency locks. Cloud resources, scanner downloads, logs and external AI calls can create costs; review the stated scope before enabling them.
 
-Read [the existing validation scope](VALIDATION.md) before running anything. A recorded historical test result is not evidence that your new copy has passed.
+## Create your project folder
 
-## Step 1: Create your own workspace
-
-**Where:** your workstation, in a new project folder.
-
-1. Clone the public source below into a new directory; keep the source attribution and included license terms. This creates your local learning copy, not cloud resources.
-2. Record the selected commit and tool versions before editing. If you later publish a fork, review any origin, hash or target bindings rather than disabling guards to make the fork pass.
+Choose a new folder name. These first commands create a blank project; an optional `git init` gives it its own history. Create parent directories in your editor when a later step introduces a nested file.
 
 ```bash
-git clone https://github.com/truthofsource/azure-logic-apps-document-ingestion.git
-cd azure-logic-apps-document-ingestion
-git rev-parse HEAD
-git rev-parse --show-toplevel
-git status --short
+mkdir my-azure-logic-apps-document-ingestion
+cd my-azure-logic-apps-document-ingestion
+git init
 ```
 
-**Expected result:** the project files are present and you can identify the starting source. Continue from this repository root unless a command explicitly changes directory.
+Create `.gitignore` before saving credentials or build outputs:
 
-## Step 2: Prepare dependencies and build the local baseline
-
-**Where:** the same workstation terminal.
-
-1. Follow the runtime instructions and install only the dependencies selected by this project's files. Terraform provider downloads, optional browser downloads and scanner databases are separate prerequisites where the detailed guide identifies them.
-2. Run these source-derived baseline commands one at a time and stop on an unexpected failure. Read any skipped integration cases; a skip is not a successful live check.
-
-```bash
-npm test
-npm run demo
+```gitignore
+.venv/
+node_modules/
+.env
+.env.*
+local.settings.json
+credentials.json
+token.json
+*.pem
+*.key
+*.tfstate*
+*.tfplan
+.terraform/
+private*/
+captures/
+backups/
+batch.json
+reports/
+out/
+app-config.local.yaml
 ```
 
-**Expected result:** the selected tests finish without unexpected failures, and a demonstration command, where provided, produces fictional local decisions. These commands reproduce the included lab scope; they do not commission the live platform.
+The source/file snippets are a starting implementation you type or paste into the named files. Replace `YOUR_*`, names, regions and addresses only with values from your own lab; do not place real client/employee records in a test project. Keep your terminal in this project root unless a step explicitly changes directory.
 
-## Step 3: Make one project-specific change
+Before a first commit, set your own repository-local author with `git config user.name "YOUR_NAME"` and `git config user.email "YOUR_PUBLIC_COMMIT_EMAIL"`. Review `git status --short` and the staged diff before publishing; ignored local files are not a substitute for reviewing what you upload.
 
-**Where:** your editor, in your own local copy.
+## Step 1 — Define the intake contract
 
-1. Start with [`src/documents/inboundDocumentRules.test.ts`](../src/documents/inboundDocumentRules.test.ts) and the matching test or configuration instructions. Add a fictional attachment with conflicting filing rules and keep it from being accepted automatically.
-2. Save your new case separately from the original acceptance records, then rerun the affected tests and the baseline. Do not edit recorded scanner results, screenshots or validation counts to manufacture a successful outcome.
+**Where:** Your design notes.
 
-**Expected result:** you can explain what you changed, why the result changed and which negative case still fails safely. An unexpected failure means investigate the implementation or setup, not remove the failing check.
+Choose one mailbox/folder or label, allowed sender types, supported file types, maximum size and destination naming. Define a message-ID/attachment-ID key so retrying an email does not create a second business document.
 
-## Step 4: Verify behavior and capture your own evidence
+**Check before continuing:** The flow has a precise source, filtering rule and duplicate key.
 
-**Where:** the test output, local viewer where supplied, and your private evidence folder.
+## Step 2 — Create private quarantine storage
 
-1. If the project supplies a viewer, use its startup command in [the command guide](COMMANDS.md); keep long-running preview servers in a separate terminal. Follow its exact loopback address and stop it with Ctrl+C when finished; for a command-line-only example, inspect its terminal output and generated files instead.
-2. Compare your own output with [the proof and limits](../README.md#proof-it-works), then record source version, command, expected result, observed result and unresolved work. Capture screenshots of your own fictional output rather than presenting the existing screenshots as your execution.
+**Where:** Azure Portal → Storage account → Containers.
 
-**Expected result:** Attachment-selection and ingestion decisions; no live Gmail connection or workflow activation. Your evidence must say whether it covers local logic, a real tool run, a hosted service or a human observation.
+Create a new private quarantine container with your selected retention, logging and network policy. Give the intended connector/workflow identity only its needed data access, and confirm the connector can reach this network path.
 
-### Start the local preview
+**Check before continuing:** The destination exists and the actual caller has a tested path; storage management access alone is not upload permission.
 
-Open a second terminal in the same repository root printed by `git rev-parse --show-toplevel`. Run the command below from that root, after the baseline has passed; it stays running while you use the preview.
+## Step 3 — Create the workflow and test the connector first
 
-```bash
-python3 -B scripts/preview.py --port 8141
-```
+**Where:** Azure Portal → Logic Apps → Create → Designer.
 
-Open [http://127.0.0.1:8141](http://127.0.0.1:8141). Use the exact hostname shown here; a localhost address and a 127.0.0.1 address are not interchangeable for every project's host checks.
+Choose the hosting/connector model for your lab and add the mail trigger. Authorize only your intended mailbox and test one harmless email before adding business actions; a connector HTTP 500 is a failure to investigate, not proof that consent or credentials are wrong.
 
-The command uses the same Python environment as the baseline where Python is required. This guide uses an explicit virtual-environment executable rather than activating it; when following other project examples that say `python`, use that same executable if the project has a `.venv`. In WSL, keep the clone and its virtual environment in the same Linux environment; do not reuse a Windows `.venv`.
+**Check before continuing:** A trigger run retrieves the intended harmless test message or records a specific connector failure.
 
-Keep one preview per listening port. Stop your own earlier preview with Ctrl+C before starting another one on that port, or use only a port override documented by the project. If you stop the preview, rerun only its startup command; you do not need to rebuild or redeploy cloud services.
+## Step 4 — Add attachment filtering and controlled writes
 
-## Step 5: Plan an independent cloud extension, if needed
+**Where:** Logic App Designer.
 
-**Where:** your own architecture/configuration files first; a separately authorized lab subscription only later.
+Add the attachment loop, reject unsupported/oversized input and generate a stable destination key from message/attachment identifiers without traversal paths. Add Blob create/write using the tested connection; set bounded concurrency and a duplicate policy before enabling recurrent intake.
 
-1. Read the implementation and infrastructure references linked below. Substitute your own names, identities, address ranges and service settings in an isolated environment; a public reference may contain only selected components and is not authority to apply someone else's production state.
-2. List the missing integrations and acceptance checks before deployment: runtime hosting, permissions, network/DNS paths, secrets, source data, notification or provider access as applicable. Keep disabled examples disabled until their specific dependencies, costs and cleanup are understood.
+**Check before continuing:** One approved attachment produces one quarantined object; repeat delivery follows the chosen duplicate behavior.
 
-**Expected result:** a scoped extension plan with owners and explicit acceptance criteria, not a claim that the full service is deployed. No cloud `apply`, scanner targeting, paid operation or provider sign-in is implied by the local recipe.
+## Step 5 — Keep scanning and business acceptance separate
 
-- [Implementation](IMPLEMENTATION.md)
-- [Operations And Scaling](OPERATIONS-AND-SCALING.md)
-- [Validation](VALIDATION.md)
-- [Source Map](SOURCE-MAP.md)
+**Where:** Workflow status and storage metadata.
 
-## Step 6: Troubleshoot, close out and explain what you built
+Write Pending rather than Clean on receipt, then connect the actual scanner-result path and exact object version before enabling use of uploaded content. Record message receipt, storage write, scan verdict and business filing as separate states.
 
-**Where:** your project folder and the operating guide for any environment you actually created.
+**Check before continuing:** Receiving a file cannot automatically authorize its download or complete a business checklist.
 
-1. Check the failing stage in order: working directory and runtime, dependencies, test input, configuration, then any separately enabled service. Preserve the error and consult the existing troubleshooting lessons before widening permissions or changing the target.
-2. Stop only the viewers/containers you started, retain your useful evidence and remove only resources belonging to your own reviewed lab. A local-only run needs no cloud deletion; if you created cloud resources, verify residual storage/address/monitoring charges rather than assuming compute stop removes all cost.
+## Step 6 — Test failure and choose a supported fallback
 
-**Finish checklist:** explain the business problem, show your own change and verification, describe one failure/recovery case, identify limitations and name the next owner action. Keep credentials and business records out of public commits and screenshots.
+**Where:** Run history and your own Google/Azure API setup.
+
+Test revoked consent, an oversized attachment, a duplicate and an unreachable destination. If the managed connector is unsupported or repeatedly fails, document that conclusion and build a separate direct Gmail OAuth/API reader with protected credentials; do not present that alternative as a repaired Logic App connection.
+
+**Check before continuing:** Your evidence identifies which path actually worked and preserves the failed connector lesson.
+
+## Step 7 — Capture the flow and turn off the lab
+
+**Where:** Logic App Overview / connections.
+
+Save a value-free designer diagram, run outcomes and recovery instructions. Disable the trigger, remove only your lab connections/permissions and account for the plan, storage and log costs.
+
+**Check before continuing:** No unintended email intake continues after the exercise.
+
+## Verification and your own screenshots
+
+| Evidence | What to record | Your result |
+| --- | --- | --- |
+| New build | Your own files/resource settings and tool versions | Not yet recorded |
+| Working path | The actual successful request, configuration or recovery result | Not yet recorded |
+| Failure boundary | A meaningful denied, malformed, stale or failed case | Not yet recorded |
+| Recovery / cleanup | What you restored or removed and what remains billed | Not yet recorded |
+
+Capture your own architecture/configuration, one working result and one failure/recovery result. Keep tokens, credentials, personal records and private identifiers out of public screenshots. Existing portfolio images are references, not evidence that you performed these steps.
+
+## Troubleshooting order
+
+1. Confirm the named file, working directory and selected tool/interpreter.
+2. Check the exact input and resource/account selected for the failing step.
+3. Separate identity permission, network/DNS reachability and application validation.
+4. Keep the actual error and reconcile an unknown write outcome before repeating it; do not widen access or repeat paid operations blindly.
+
+The numbered steps describe a build procedure. Local syntax checks, an accepted API request, a completed hosted operation and a human verification are different evidence levels; fill in the verification table with what you actually observed.
+
+## Official implementation references
+
+- [learn.microsoft.com — connectors-create-api-gmail](https://learn.microsoft.com/en-us/azure/connectors/connectors-create-api-gmail)
+- [learn.microsoft.com — connectors-create-api-azureblobstorage](https://learn.microsoft.com/en-us/azure/connectors/connectors-create-api-azureblobstorage)
+
+The walkthrough layout follows the prerequisites → creation/configuration → test → verification → troubleshooting → cleanup pattern of the [Splunk project reference](https://github.com/davidharris6/splunk-siem-log-analysis). Its Splunk-specific settings are not copied into unrelated projects.
