@@ -128,5 +128,3 @@ The numbered steps describe a build procedure. Local syntax checks, an accepted 
 
 - [learn.microsoft.com — connectors-create-api-gmail](https://learn.microsoft.com/en-us/azure/connectors/connectors-create-api-gmail)
 - [learn.microsoft.com — connectors-create-api-azureblobstorage](https://learn.microsoft.com/en-us/azure/connectors/connectors-create-api-azureblobstorage)
-
-The walkthrough layout follows the prerequisites → creation/configuration → test → verification → troubleshooting → cleanup pattern of the [Splunk project reference](https://github.com/davidharris6/splunk-siem-log-analysis). Its Splunk-specific settings are not copied into unrelated projects.
